@@ -1,4 +1,6 @@
 import connection from "../databases/db.js"
+import { v4 as uuid } from 'uuid';
+import bcrypt from "bcrypt"
 
 const signup = async (req, res) => {
     const { name, email, password, confirmPassword } = req.body
@@ -12,10 +14,29 @@ const signup = async (req, res) => {
     if(existemail.rows.length > 0){
         res.sendStatus(409)
     }else{
-        await connection.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, password])
+        const hashDaSenha = bcrypt.hashSync(password, 10)
+        await connection.query(`INSERT INTO users (name, email, password) VALUES ($1, $2, $3);`, [name, email, hashDaSenha])
         res.sendStatus(201)
     }
     
 }
 
-export { signup }
+const signin = async (req, res) => {
+    const { email, password } = req.body
+
+    const existemail = await connection.query(`SELECT id, password FROM users WHERE email = $1;`, [email])
+    
+    const senhaEvalida = bcrypt.compareSync(password, existemail.rows[0].password)
+
+    if(existemail.rows.length > 0 && senhaEvalida){
+        //retorna o uuid
+        const token = uuid()
+        await connection.query(`INSERT INTO sessions ("userId", token) VALUES ($1, $2);`, [existemail.rows[0].id, token])
+        res.status(200).send({token: token})
+    }else{
+        res.sendStatus(401)
+    }
+    
+}
+
+export { signup, signin }

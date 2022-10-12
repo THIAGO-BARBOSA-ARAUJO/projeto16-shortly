@@ -1,6 +1,6 @@
 import joi from "joi"
 
-const schemaSignin = joi.object({
+const schemaSignup = joi.object({
     name: joi.string()
     .required(),
 
@@ -14,4 +14,14 @@ const schemaSignin = joi.object({
     .required()
 }).options({ abortEarly: false })
 
-export default schemaSignin
+const schemaSignin = joi.object({
+
+    email: joi.string()
+    .required(),
+
+    password: joi.string()
+    .required(), 
+
+}).options({ abortEarly: false })
+
+export {schemaSignup, schemaSignin}

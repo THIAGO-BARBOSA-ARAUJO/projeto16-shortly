@@ -1,9 +1,10 @@
 import { Router } from "express";
-import {signup} from "../controllers/auth.controller.js"
-import {ValidaschemaSignin} from "../middlewares/authMiddleware.js"
+import {signup, signin} from "../controllers/auth.controller.js"
+import {ValidaschemaSignup, ValidaschemaSignin} from "../middlewares/authMiddleware.js"
 
 const routerauth = Router()
 
-routerauth.post("/signin", ValidaschemaSignin, signup)
+routerauth.post("/signup", ValidaschemaSignup, signup)
+routerauth.post("/signin", ValidaschemaSignin, signin)
 
 export default routerauth

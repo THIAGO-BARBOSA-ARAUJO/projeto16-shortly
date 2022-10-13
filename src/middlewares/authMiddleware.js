@@ -1,5 +1,4 @@
-import joi from "joi"
-import {schemaSignup, schemaSignin} from "../schemas/auth.schema.js"
+import { schemaSignup, schemaSignin } from "../schemas/auth.schema.js"
 
 
 async function ValidaschemaSignup(req, res, next) {
@@ -24,4 +23,6 @@ async function ValidaschemaSignin(req, res, next) {
   next()
 }
 
-  export {ValidaschemaSignup, ValidaschemaSignin}
+
+
+export { ValidaschemaSignup, ValidaschemaSignin }

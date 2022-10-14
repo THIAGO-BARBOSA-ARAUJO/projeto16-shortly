@@ -11,7 +11,7 @@ async function autorization(req, res, next) {
 
     if(existesession.rows.length <= 0) return res.sendStatus(401)
 
-    res.locals.existesession = existesession
+    res.locals.existesession = existesession.rows[0]
 
     next()
   }

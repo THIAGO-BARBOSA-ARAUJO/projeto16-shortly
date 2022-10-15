@@ -5,12 +5,9 @@ import { nanoid } from 'nanoid'
 
 const shorten = async (req, res) => {
     const { url } = req.body
-    
     const short = nanoid(6)
-    await connection.query(`INSERT INTO urls ("shortUrl", url, "userId") VALUES ($1, $2, $3);`, [short, url, res.locals.existesession.id])
+    await connection.query(`INSERT INTO urls ("shortUrl", url, "userId") VALUES ($1, $2, $3);`, [short, url, res.locals.existesession.userId])
     res.status(200).send({shortUrl: short})
-
-    
 }
 
 const listUrlId = async (req, res) => {

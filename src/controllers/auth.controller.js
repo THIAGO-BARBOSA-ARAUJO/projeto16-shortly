@@ -39,4 +39,11 @@ const signin = async (req, res) => {
     
 }
 
-export { signup, signin }
+const logout = async (req, res) => {
+    
+    const session = res.locals.existesession
+    await connection.query(`DELETE FROM sessions WHERE "userId" = $1;`, [session.userId])
+    res.sendStatus(200)
+}
+
+export { signup, signin, logout }

@@ -73,14 +73,11 @@ const getUserMe = async (req, res) => {
         ON users.id = urls."userId" WHERE users.id = $1
         ;`, [sessions.userId])
 
-        console.log(urls.rows.length)
-        if(urls.rows.length <= 0) return res.sendStatus(404)
-
-        if(sessions.userId !== urls.rows[0].userid) return res.sendStatus(404)
+        const users = await connection.query(`SELECT * FROM users WHERE users.id = $1`, [sessions.userId])
 
         let count = 0
         for(let i = 0; i < urls.rows.length ; i++){
-            count += urls.rows[i].visitCount
+            count += urls.rows[i]?.visitCount
         }
 
         const short = urls.rows.map((url) => {
@@ -93,7 +90,7 @@ const getUserMe = async (req, res) => {
         })
         
 
-        return res.status(200).send({id: urls.rows[0].userid, name: urls.rows[0].name, visitCount: count, shortenedUrls: short})
+        return res.status(200).send({id: users.rows[0].id, name: users.rows[0].name, visitCount: count, shortenedUrls: short})
     } catch (error) {
         console.log(error)
        return res.sendStatus(500)

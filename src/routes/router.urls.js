@@ -9,7 +9,7 @@ routerurls.post("/urls/shorten", ValidaSchemaUrls, autorization, shorten)
 routerurls.get("/urls/:id", listUrlId)
 routerurls.get("/urls/open/:shortUrl", redirectUrl)
 routerurls.delete("/urls/:id", autorization, deleteUrl)
-routerurls.get("/users/me",autorization, getUserMe)
+routerurls.get("/users/me", autorization, getUserMe)
 routerurls.get("/ranking", ranking)
 
 export default routerurls

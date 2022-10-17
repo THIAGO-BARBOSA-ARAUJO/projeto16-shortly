@@ -47,11 +47,11 @@ const deleteUrl = async (req, res) => {
     const { userId } = res.locals.existesession
     try {
         const urlpertenceusuario = await connection.query(`SELECT * FROM urls WHERE id = $1;`, [id])
-
+        console.log(urlpertenceusuario.rows.length)
+        if(urlpertenceusuario.rows.length <= 0) return res.sendStatus(404)
         const {rows: [{userId: userIdSessions}]} = urlpertenceusuario
         //console.log(userIdSessions)
-        if(urlpertenceusuario.rows.length <= 0) return res.sendStatus(404)
-
+        
         if(userId !== userIdSessions){
             return res.sendStatus(401)
         }

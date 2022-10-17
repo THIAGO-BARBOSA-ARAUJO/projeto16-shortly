@@ -51,7 +51,7 @@ const deleteUrl = async (req, res) => {
         if(urlpertenceusuario.rows.length <= 0) return res.sendStatus(404)
         const {rows: [{userId: userIdSessions}]} = urlpertenceusuario
         //console.log(userIdSessions)
-        
+
         if(userId !== userIdSessions){
             return res.sendStatus(401)
         }
@@ -73,9 +73,9 @@ const getUserMe = async (req, res) => {
         ON users.id = urls."userId" WHERE users.id = $1
         ;`, [sessions.userId])
 
-        //console.log(urls.rows)
-        //console.log(sessions.userId)
-        //console.log(urls.rows[0])
+        console.log(urls.rows.length)
+        if(urls.rows.length <= 0) return res.sendStatus(404)
+
         if(sessions.userId !== urls.rows[0].userid) return res.sendStatus(404)
 
         let count = 0
